@@ -8,13 +8,12 @@ import { setNextPage, setPrevPage } from './store/actions';
 const container = document.getElementById('root') as HTMLElement;
 const location = document.getElementById('location') as HTMLElement;
 const page = document.getElementById('page') as HTMLElement;
+const car = document.getElementById('car') as HTMLElement;
 
 const store = createStrore(rootReducer, {
   page: 1,
   location: 'Garage',
 });
-
-window.store = store
 
 container?.addEventListener('click', e => {
   const target = e.target as HTMLElement;
@@ -35,6 +34,25 @@ container?.addEventListener('click', e => {
     }
     case 'btn-nextpage': {
       store.dispatch(setNextPage(state));
+      break;
+    }
+    case 'btn-start': {
+      car.animate([
+        { transform: 'translate(0px, 0px)' },
+        { transform: 'translate(1500px, 0px)' }
+      ], {
+        duration: 2500,
+        fill: 'forwards',
+      })
+      break;
+    }
+    case 'btn-stop': {
+      car.getAnimations().forEach(animation => animation.cancel());
+      break;
+    }
+    case 'btn-brake': {
+      console.log(car.getAnimations());
+      car.getAnimations().forEach(animation => animation.pause());
       break;
     }
   }
